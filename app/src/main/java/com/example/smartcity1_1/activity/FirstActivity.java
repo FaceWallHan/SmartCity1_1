@@ -32,7 +32,7 @@ public class FirstActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private LinearLayout layout;
     List<ImageView> imageViews;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;//所有的SharedPreferences建议直接建一个类用来管理
     private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
@@ -48,7 +48,7 @@ public class FirstActivity extends AppCompatActivity {
         if  (sharedPreferences.getBoolean(AppClient.IsFist,true)){
             sharedPreferences.edit().putBoolean(AppClient.IsFist,false).apply();
         }else {
-            handler.sendEmptyMessage(0);
+            handler.sendEmptyMessage(0);//不是在子线程 且没有延时需求 也不需要多次调用执行 这个handler 没有意义
         }
         setContentView(R.layout.first_layout);
         initView();
@@ -58,8 +58,8 @@ public class FirstActivity extends AppCompatActivity {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(30, 30);
             layoutParams.setMargins(20, 0, 20, 0);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setBackgroundResource(arr[i]);
-            TextView textView = new TextView(this);
+            imageView.setBackgroundResource(arr[i]);//你既然用了imageview 加载图片就用    imageView.setImageResource(); 不然你用imageview的意义呢 这两种方式区别很大 backgroun 不能去控制管理 建议用src
+            TextView textView = new TextView(this); //textview 不加载文字的话就换imageview吧 还是不要用backgroun 理由同上
             textView.setLayoutParams(layoutParams);
             if (i == 0) {
                 textView.setBackgroundResource(R.drawable.yuna_select);
