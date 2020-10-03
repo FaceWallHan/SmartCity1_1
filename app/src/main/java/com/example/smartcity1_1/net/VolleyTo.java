@@ -1,0 +1,77 @@
+package com.example.smartcity1_1.net;
+
+import android.net.Uri;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.smartcity1_1.AppClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * @Login Name win10
+ * @Create by 张瀛煜 on 2020/10/1 at 18:59
+ */
+public class VolleyTo extends Thread {
+    private String Url = "http://"+AppClient.sharedPreferences.getString(AppClient.IP,"192.168.155.108")+":"+AppClient.sharedPreferences.getString(AppClient.Port,"8080")+"/mobileA/";
+    private int time;
+    private boolean isLoop;
+    private JSONObject jsonObject = new JSONObject();
+    private VolleyLo volleyLo;
+
+    public VolleyTo setVolleyLo(VolleyLo volleyLo) {
+        this.volleyLo = volleyLo;
+        return this;
+    }
+
+    public VolleyTo setUrl(String url) {
+        Url += url;
+        return this;
+    }
+
+    public VolleyTo setTime(int time) {
+        this.time = time;
+        return this;
+    }
+
+    public VolleyTo setLoop(boolean loop) {
+        isLoop = loop;
+        return this;
+    }
+
+    public VolleyTo setJsonObject(String k, Object v) {
+        try {
+            jsonObject.put(k, v);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        do {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Url, jsonObject
+                    , new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject jsonObject) {
+                    volleyLo.onResponse(jsonObject);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    volleyLo.onErrorResponse(volleyError);
+                }
+            });
+            AppClient.add(jsonObjectRequest);
+            try {
+                Thread.sleep(time);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } while (isLoop);
+    }
+}
