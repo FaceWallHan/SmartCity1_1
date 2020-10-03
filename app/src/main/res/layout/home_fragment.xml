@@ -16,6 +16,7 @@
             android:orientation="vertical">
 
             <ViewFlipper
+                android:autoStart="true"
                 android:id="@+id/view_flipper"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
