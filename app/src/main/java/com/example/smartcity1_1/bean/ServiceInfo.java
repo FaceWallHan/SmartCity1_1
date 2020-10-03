@@ -8,56 +8,56 @@ public class ServiceInfo  {
 
 
     /**
-     * id : 1
-     * name : 便民服务
-     * weight : 10
-     * image : http://localhost:8080/mobileA/images/tubiao1.png
-     * type : 智慧服务
+     * serviceid : 1
+     * serviceName : 便民服务
+     * icon : http://192.168.155.108:8080/mobileA/images/tubiao1.png
+     * url : https://new.qq.com/omn/20201003/20201003A06MRV00.html
+     * serviceType : 智慧服务
      */
 
-    private int id;
-    private String name;
-    private int weight;
-    private String image;
-    private String type;
+    private int serviceid;
+    private String serviceName;
+    private String icon;
+    private String url;
+    private String serviceType;
 
-    public int getId() {
-        return id;
+    public int getServiceid() {
+        return serviceid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setServiceid(int serviceid) {
+        this.serviceid = serviceid;
     }
 
-    public String getName() {
-        return name;
+    public String getServiceName() {
+        return serviceName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
-    public int getWeight() {
-        return weight;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
-    public String getImage() {
-        return image;
+    public String getUrl() {
+        return url;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getType() {
-        return type;
+    public String getServiceType() {
+        return serviceType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setServiceType(String serviceType) {
+        this.serviceType = serviceType;
     }
 }

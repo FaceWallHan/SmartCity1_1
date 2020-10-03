@@ -56,9 +56,9 @@ public class AllServiceGirdViewAdapter extends ArrayAdapter<ServiceInfo> {
             holder = (ViewHolder) convertView.getTag();
         }
         ServiceInfo serviceInfo = getItem(position);
-        holder.itemName.setText(serviceInfo.getName());
+        holder.itemName.setText(serviceInfo.getServiceName());
         VolleyImage volleyImage = new VolleyImage();
-        volleyImage.setUrl(serviceInfo.getImage())
+        volleyImage.setUrl(serviceInfo.getIcon())
                 .setVolleyLoImage(new VolleyLoImage() {
                     @Override
                     public void onResponse(Bitmap bitmap) {
@@ -70,14 +70,14 @@ public class AllServiceGirdViewAdapter extends ArrayAdapter<ServiceInfo> {
 
                     }
                 }).start();
-        if (serviceInfo.getName().equals("地铁查询")) {
+        if (serviceInfo.getServiceName().equals("地铁查询")) {
             holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     getContext().startActivity(new Intent(getContext(), TrafficActivity.class));
                 }
             });
-        }else if (serviceInfo.getName().equals("新闻中心")){
+        }else if (serviceInfo.getServiceName().equals("新闻中心")){
             holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -106,7 +106,7 @@ public class AllServiceFragemnt extends Fragment {
             VolleyTo volleyTo = new VolleyTo();
             final int finalI = i;
             volleyTo.setUrl("getServiceByType")
-                    .setJsonObject("type", serviceType.get(i))
+                    .setJsonObject("serviceType", serviceType.get(i))
                     .setVolleyLo(new VolleyLo() {
                         @Override
                         public void onResponse(JSONObject jsonObject) {
