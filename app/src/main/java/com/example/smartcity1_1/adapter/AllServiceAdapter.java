@@ -1,5 +1,6 @@
 package com.example.smartcity1_1.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,7 +96,14 @@ public class AllServiceAdapter extends BaseExpandableListAdapter {
         } else {
             holderZi = (ViewHolderZi) convertView.getTag();
         }
-        Log.i("aaa", "getChildView: "+map.get(type.get(groupPosition)).size());
+        int count = map.get(type.get(groupPosition)).size();
+        int line = count / 4;
+        if (count%4!=0){
+            line ++;
+        }
+        Log.i("bbb", "getChildView: "+count+"----"+line);
+        ViewGroup.LayoutParams params = holderZi.girdView.getLayoutParams();
+        params.height = px2dip(parent.getContext(),70)*line;
         AllServiceGirdViewAdapter allServiceGirdViewAdapter = new AllServiceGirdViewAdapter(
                 parent.getContext(), map.get(type.get(groupPosition)));
         allServiceGirdViewAdapter.setOnUpDate(new OnUpDate() {
@@ -108,6 +116,11 @@ public class AllServiceAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    public static int px2dip(Context context, float pxValue) {
+        final float scal = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue * scal + 0.5f);
+    }
+
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
@@ -115,15 +128,11 @@ public class AllServiceAdapter extends BaseExpandableListAdapter {
 
 
     static class ViewHolderFu {
-
         private TextView itemName;
     }
 
     static class ViewHolderZi {
-
         private GridView girdView;
     }
 
-    private void initView() {
-    }
 }

@@ -52,7 +52,6 @@ public class AllServiceFragemnt extends Fragment {
         return inflater.inflate(R.layout.all_service_fragment, container, false);
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
