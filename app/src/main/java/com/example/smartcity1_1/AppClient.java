@@ -20,11 +20,15 @@ public class AppClient extends Application {
     public static final String Port = "Port";
     public static String username = "abc";
     public static final String IsFist = "isFirst";
+    private static AppClient instance;
 
-
+    public static AppClient getInstance() {
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
+        instance=this;
         requestQueue = Volley.newRequestQueue(this);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }

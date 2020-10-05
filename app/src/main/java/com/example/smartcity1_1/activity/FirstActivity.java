@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.smartcity1_1.AppClient;
 import com.example.smartcity1_1.R;
+import com.example.smartcity1_1.data.DataCenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,25 +33,17 @@ public class FirstActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private LinearLayout layout;
     List<ImageView> imageViews;
-    private SharedPreferences sharedPreferences;//所有的SharedPreferences建议直接建一个类用来管理
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            startActivity(new Intent(FirstActivity.this, MainActivity.class));
-            finish();
-            return false;
-        }
-    });
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sharedPreferences = AppClient.sharedPreferences;
-        if  (sharedPreferences.getBoolean(AppClient.IsFist,true)){
-            sharedPreferences.edit().putBoolean(AppClient.IsFist,false).apply();
-        }else {
-            handler.sendEmptyMessage(0);//不是在子线程 且没有延时需求 也不需要多次调用执行 这个handler 没有意义
-        }
         setContentView(R.layout.first_layout);
+        //这是一种很推荐的写法 if中处理异常情况然后剩余部分去专心写逻辑
+        if (!DataCenter.getInstance().getIsFirst()){
+            startActivity(new Intent(FirstActivity.this, MainActivity.class));
+            finish();//这样写还有好处就是不会出现你写的那种 第一个画面一闪而过的情况
+            return;
+        }
+        DataCenter.getInstance().setIsFirst(false);//返回值是是否存入成功
         initView();
         imageViews = new ArrayList<>();
         for (int i = 0; i < arr.length; i++) {
@@ -58,13 +51,15 @@ public class FirstActivity extends AppCompatActivity {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(30, 30);
             layoutParams.setMargins(20, 0, 20, 0);
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            imageView.setBackgroundResource(arr[i]);//你既然用了imageview 加载图片就用    imageView.setImageResource(); 不然你用imageview的意义呢 这两种方式区别很大 backgroun 不能去控制管理 建议用src
-            TextView textView = new TextView(this); //textview 不加载文字的话就换imageview吧 还是不要用backgroun 理由同上
+            imageView.setImageResource(arr[i]);//你既然用了imageview 加载图片就用    imageView.setImageResource(); 不然你用imageview的意义呢 这两种方式区别很大 backgroun 不能去控制管理 建议用src
+           //看题目要求图片怎么显示 根据需求改scaletype
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            ImageView textView = new ImageView(this); //textview 不加载文字的话就换imageview吧 还是不要用backgroun 理由同上
             textView.setLayoutParams(layoutParams);
             if (i == 0) {
-                textView.setBackgroundResource(R.drawable.yuna_select);
+                textView.setImageResource(R.drawable.yuna_select);
             } else {
-                textView.setBackgroundResource(R.drawable.yuna_noselect);
+                textView.setImageResource(R.drawable.yuna_noselect);
             }
             layout.addView(textView);
             imageViews.add(imageView);
@@ -79,11 +74,11 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 for (int j = 0; j < layout.getChildCount(); j++) {
-                    TextView textView1 = (TextView) layout.getChildAt(j);
+                    ImageView textView1 = (ImageView) layout.getChildAt(j);
                     if (j == position) {
-                        textView1.setBackgroundResource(R.drawable.yuna_select);
+                        textView1.setImageResource(R.drawable.yuna_select);
                     } else {
-                        textView1.setBackgroundResource(R.drawable.yuna_noselect);
+                        textView1.setImageResource(R.drawable.yuna_noselect);
                     }
                 }
                 if (position == imageViews.size() - 1) {
